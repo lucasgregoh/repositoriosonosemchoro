@@ -618,6 +618,7 @@ body::before {
   width: 100%;
   max-width: var(--max-w);
   border-top: 3px solid var(--moon);
+  position: relative;
 }
 .overlay-card h3 {
   font-family: 'Playfair Display', serif;
@@ -1303,7 +1304,7 @@ body::before {
       <li><span class="fi">✅</span>Método Sono Sem Choro</li>
       <li><span class="fi">✅</span>Técnicas por faixa etária (0 a 3 anos)</li>
     </ul>
-    <button class="btn-secondary" onclick="showUpsell()">Quero apenas o básico sem os bônus incríveis</button>
+    <button class="btn-secondary" onclick="showUpsell()" style="background:rgba(126,184,247,0.08);border-color:rgba(126,184,247,0.35);color:var(--star);">Quero apenas o básico sem os bônus incríveis</button>
   </div>
 
   <!-- GARANTIA -->
@@ -1366,10 +1367,18 @@ body::before {
         </svg>
       </div>
     </div>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Cristã, casada com o Lucas Gregoh e mãe do Noah. Mãe de primeira viagem, enfrentando esse novo mundo que é a maternidade.</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Sou formada em design de interiores, porém não foi a área que me encantou tanto os olhos para atuar. Empreender na internet me trouxe a oportunidade de ajudar mulheres a encontrar a sua melhor versão em várias áreas da vida.</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Hoje falo com centenas de mulheres todos os dias através das minhas redes sociais. Estou aqui para te mostrar que é possível ser ainda melhor do que você jamais foi.</p>
-    <p style="font-size:14px;color:var(--text);line-height:1.7;">Espero que a minha mensagem alcance milhões de mulheres para que possam se desenvolver em diversas áreas da vida: casamento, maternidade, espírito, saúde, boa forma e empreendedorismo digital.</p>
+    <!-- TAGS DISCRETAS -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;justify-content:center;">
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.3);color:var(--moon);">✨ Mais de 10 mil mães</span>
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(76,175,125,0.1);border:1px solid rgba(76,175,125,0.3);color:var(--green);">✅ Método aprovado</span>
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(126,184,247,0.1);border:1px solid rgba(126,184,247,0.3);color:var(--star);">🕐 2 anos no mercado</span>
+    </div>
+    <p style="font-size:15px;font-weight:600;color:var(--text);line-height:1.7;margin-bottom:14px;">Se o seu bebê não dorme a noite toda... você não precisa continuar vivendo assim.</p>
+    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Olá, sou a Myrnna Gurgel, cristã, esposa do Lucas Gregoh e mãe do Noah e da Lia.</p>
+    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">E já estive no seu lugar: exausta, perdida e sem saber como fazer meu bebê dormir.</p>
+    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Depois de tentar de tudo... descobri um método que fez meus filhos dormirem a noite inteira sem choro e sem sofrimento.</p>
+    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Hoje, ajudo milhares de mães que também estavam cansadas, sobrecarregadas e sem tempo pra si mesmas... a finalmente terem noites tranquilas novamente.</p>
+    <p style="font-size:15px;font-weight:600;color:var(--text);line-height:1.7;">Você não precisa aceitar noites em claro como "fase".<br><br>👉 Clique agora e descubra como fazer seu bebê dormir melhor ainda hoje.</p>
   </div>
   <button class="btn-primary" onclick="scrollToPlans()" style="margin-top:16px;">🌙 GARANTIR ACESSO AGORA →</button>
   <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:12px;">🔒 Pagamento 100% seguro · Acesso imediato</p>
@@ -1378,8 +1387,9 @@ body::before {
 </div><!-- /wrap -->
 
 <!-- UPSELL OVERLAY -->
-<div class="overlay" id="upsellOverlay">
+<div class="overlay" id="upsellOverlay" onclick="closeUpsellOutside(event)">
   <div class="overlay-card">
+    <button onclick="closeUpsell()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px;transition:color .15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-muted)'">✕</button>
     <div style="text-align:center;margin-bottom:4px;">
       <span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--moon)">⚠️ ESPERA!</span>
     </div>
@@ -1606,10 +1616,18 @@ function showUpsell() {
   document.getElementById('upsellOverlay').classList.add('open');
 }
 
+function closeUpsell() {
+  document.getElementById('upsellOverlay').classList.remove('open');
+}
+
+function closeUpsellOutside(e) {
+  if (e.target === document.getElementById('upsellOverlay')) closeUpsell();
+}
+
 function goCompra(plano) {
   const links = {
-    basico: 'https://pay.kiwify.com.br/Z9ReNyC',
-    completo: 'https://pay.kiwify.com.br/eIQS8FY'
+    basico: 'https://pay.hotmart.com/J105718398T?off=hy2mghlj&checkoutMode=10',
+    completo: 'https://pay.hotmart.com/J105718398T?off=w0frq85b&checkoutMode=10'
   };
   window.location.href = links[plano] || '#';
 }
@@ -1627,7 +1645,7 @@ document.getElementById('inputNome').addEventListener('keydown', function(e) {
 // Init
 updateProgress();
 
-// Toast notification — simula compras recentes
+// Toast notification: simula compras recentes
 (function() {
   // [nome, cidade, nomeBebe, genero: 'M'=menino 'F'=menina]
   const entries = [
