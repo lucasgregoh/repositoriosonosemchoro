@@ -9,18 +9,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://connect.facebook.net">
 <title>Sono Sem Choro Descubra o Perfil do Seu Bebê</title>
-<!-- Meta Pixel Code -->
+<!-- Meta Pixel Code: deferred for fast first paint -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '449193154116638');
-fbq('track', 'PageView');
+(function() {
+  function loadPixel() {
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '449193154116638');
+    fbq('track', 'PageView');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadPixel, { timeout: 2000 });
+  } else {
+    setTimeout(loadPixel, 500);
+  }
+})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=449193154116638&ev=PageView&noscript=1"
@@ -54,6 +63,7 @@ html, body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
 }
+
 body::before {
   content:'';
   position: fixed;
@@ -93,8 +103,9 @@ body::before {
   transition: width 0.5s cubic-bezier(.4,0,.2,1);
 }
 
-.screen { display: none; animation: fadeUp .35s ease; }
+.screen { display: none; animation: fadeUp .35s ease; contain: layout style; }
 .screen.active { display: block; }
+#s0.active { animation: none; } /* landing loads instantly, no fade needed */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(14px); }
   to { opacity:1; transform:translateY(0); }
@@ -786,6 +797,36 @@ body::before {
   50%  { transform: scale(1.03); box-shadow: 0 12px 44px rgba(200,169,110,0.6); }
   100% { transform: scale(1);    box-shadow: 0 8px 32px rgba(155,114,207,0.45); }
 }
+
+/* ONLINE COUNTER TAG */
+.online-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(76,175,125,0.08);
+  border: 1px solid rgba(76,175,125,0.2);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: .1px;
+  margin: 4px auto 0;
+  width: fit-content;
+}
+.online-dot {
+  width: 7px;
+  height: 7px;
+  background: #4caf7d;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: onlinePulse 1.6s ease-in-out infinite;
+}
+@keyframes onlinePulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76,175,125,0.5); }
+  50%      { transform: scale(1.15); box-shadow: 0 0 0 4px rgba(76,175,125,0); }
+}
+.online-count { font-weight: 600; color: var(--green); }
 </style>
 </head>
 <body>
@@ -810,6 +851,10 @@ body::before {
 <!-- ===== S0: LANDING ===== -->
 <div class="screen active" id="s0">
   <div class="logo">Sono<span>Sem</span>Choro</div>
+  <div class="online-tag" id="onlineTag" style="margin:8px auto 0;">
+    <span class="online-dot"></span>
+    <span><span class="online-count" id="onlineCount">83</span> mamães testando o Sono Sem Choro agora</span>
+  </div>
   <div class="landing-hero">
     <span class="moon-icon">🌙</span>
     <h1>Por que seu bebê não dorme sozinho <em>e como resolver em 3 dias</em></h1>
@@ -1644,6 +1689,46 @@ document.getElementById('inputNome').addEventListener('keydown', function(e) {
 
 // Init
 updateProgress();
+
+// Online counter: simulates live users (71-98, realistic oscillation)
+(function() {
+  var count = 83;
+  var dir = 1;
+  var stepsUp = 0;
+  var stepsDown = 0;
+
+  function updateCount() {
+    var el = document.getElementById('onlineCount');
+    if (!el) return;
+
+    // Random step: 1, 2 or 3 (weighted toward 1-2)
+    var step = Math.random() < 0.55 ? 1 : (Math.random() < 0.75 ? 2 : 3);
+
+    if (dir === 1) {
+      count += step;
+      stepsUp++;
+      if (count >= 98 || (stepsUp >= 3 && Math.random() < 0.4)) {
+        dir = -1; stepsUp = 0;
+      }
+    } else {
+      count -= step;
+      stepsDown++;
+      if (count <= 71 || (stepsDown >= 3 && Math.random() < 0.4)) {
+        dir = 1; stepsDown = 0;
+      }
+    }
+    count = Math.max(71, Math.min(98, count));
+    el.textContent = count;
+
+    // Irregular interval: 3s–9s
+    var next = 3000 + Math.random() * 6000;
+    setTimeout(updateCount, next);
+  }
+
+  // Start after 4s
+  setTimeout(updateCount, 4000);
+})();
+
 
 // Toast notification: simula compras recentes
 (function() {
