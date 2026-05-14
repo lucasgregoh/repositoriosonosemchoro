@@ -9,6 +9,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://connect.facebook.net">
 <title>Sono Sem Choro Descubra o Perfil do Seu Bebê</title>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NMNLKQ80RR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NMNLKQ80RR', {
+    send_page_view: true,
+    page_title: 'Quiz Sono Sem Choro'
+  });
+</script>
+
 <!-- Meta Pixel Code: deferred for fast first paint -->
 <script>
 (function() {
@@ -1475,6 +1487,10 @@ function goTo(id) {
   updateProgress();
   if (id === 's_loading') startLoading();
   if (id === 's_result') { buildResult(); if(window._startToast) window._startToast(); }
+  // GA4: track screen view
+  var name = screenNames[id] || id;
+  track('quiz_screen_view', { screen_id: id, screen_name: name, step: currentStep });
+  gtag('event', 'page_view', { page_title: 'Quiz ' + name, page_location: window.location.href + '#' + id });
 }
 
 function updateProgress() {
@@ -1490,6 +1506,9 @@ function saveNome() {
   const b = bebeEl ? bebeEl.value.trim() : '';
   state.nomeBebe = b || 'seu bebê';
   updatePersonalization();
+  // GA4: lead captured
+  track('quiz_lead_captured', { has_baby_name: b.length > 0 });
+  track('generate_lead', { currency: 'BRL' });
   goTo('s1');
 }
 
@@ -1506,6 +1525,16 @@ function selectOpt(el, screenId, nextId, data) {
   document.querySelectorAll('#'+screenId+' .opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   if (data && data.idade) state.idade = data.idade;
+  // GA4: track answer
+  var answerText = el.querySelector('.opt-text') ? el.querySelector('.opt-text').textContent.trim() : '';
+  var dataAttr = el.getAttribute('data-s1') || el.getAttribute('data-s2') ||
+                 el.getAttribute('data-s3') || el.getAttribute('data-s7') || answerText;
+  track('quiz_answer', {
+    screen_id: screenId,
+    screen_name: screenNames[screenId] || screenId,
+    answer_value: dataAttr,
+    answer_text: answerText.substring(0, 80)
+  });
   setTimeout(() => goTo(nextId), 280);
 }
 
@@ -1659,6 +1688,7 @@ function buildResult() {
 
 function showUpsell() {
   document.getElementById('upsellOverlay').classList.add('open');
+  track('quiz_upsell_shown', { from_plan: 'basico' });
 }
 
 function closeUpsell() {
@@ -1674,7 +1704,18 @@ function goCompra(plano) {
     basico: 'https://pay.hotmart.com/J105718398T?off=hy2mghlj&checkoutMode=10',
     completo: 'https://pay.hotmart.com/J105718398T?off=w0frq85b&checkoutMode=10'
   };
-  window.location.href = links[plano] || '#';
+  const prices = { basico: 10, completo: 29 };
+  // GA4: begin_checkout event
+  track('begin_checkout', {
+    currency: 'BRL',
+    value: prices[plano] || 0,
+    items: [{ item_id: plano, item_name: 'Sono Sem Choro Plano ' + plano, price: prices[plano] || 0, quantity: 1 }]
+  });
+  track('quiz_checkout_click', { plan: plano, value: prices[plano] || 0 });
+  // Small delay to ensure GA4 fires before redirect
+  setTimeout(function() {
+    window.location.href = links[plano] || '#';
+  }, 200);
 }
 
 function scrollToPlans() {
@@ -1689,6 +1730,35 @@ document.getElementById('inputNome').addEventListener('keydown', function(e) {
 
 // Init
 updateProgress();
+
+// ===========================
+// GA4 TRACKING HELPER
+// ===========================
+function track(eventName, params) {
+  if (typeof gtag === 'function') {
+    gtag('event', eventName, params || {});
+  }
+}
+
+// Screen names for readable GA4 reports
+var screenNames = {
+  s0:        'Landing',
+  s_nome:    'Captura de Nome',
+  s1:        'P1 Como o bebe dorme',
+  s2:        'P2 Quantas vezes acorda',
+  s3:        'P3 Tempo sofrendo',
+  s4:        'P4 Idade do bebe',
+  s5:        'P5 Impacto na mae',
+  s_int1:    'Interrupcao Associacao de Sono',
+  s6:        'P6 O que ja tentou',
+  s_int2:    'Interrupcao Voce nao falhou',
+  s7:        'P7 Sonho da mae',
+  s8:        'P8 Comprometimento',
+  s_dep:     'Depoimentos',
+  s_loading: 'Loading Analise',
+  s_result:  'Diagnostico Pronto',
+  s_oferta:  'Oferta'
+};
 
 // Online counter: simulates live users (71-98, realistic oscillation)
 (function() {
