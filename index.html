@@ -862,6 +862,20 @@ body::before {
   transition: color .15s;
 }
 .overlay-close-btn:hover { color: var(--text); }
+
+/* Basic plan button */
+.btn-basic {
+  background: rgba(126,184,247,0.08);
+  border-color: rgba(126,184,247,0.35);
+  color: var(--star);
+}
+
+/* Upsell skip button */
+.btn-upsell-skip {
+  font-size: 12px;
+  padding: 12px;
+  color: var(--text-muted);
+}
 </style>
 </head>
 <body>
@@ -1384,7 +1398,7 @@ body::before {
       <li><span class="fi">✅</span>Método Sono Sem Choro</li>
       <li><span class="fi">✅</span>Técnicas por faixa etária (0 a 3 anos)</li>
     </ul>
-    <button class="btn-secondary" onclick="showUpsell()" style="background:rgba(126,184,247,0.08);border-color:rgba(126,184,247,0.35);color:var(--star);">Quero apenas o básico sem os bônus incríveis</button>
+    <button class="btn-secondary btn-basic" onclick="showUpsell()">Quero apenas o básico sem os bônus incríveis</button>
   </div>
 
   <!-- GARANTIA -->
@@ -1486,7 +1500,7 @@ body::before {
     </div>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;text-align:center;">Centenas de mães dizem que os bônus valem mais que o método principal!</p>
     <button class="btn-primary" onclick="goCompra('completo')" style="margin-bottom:10px;">🌙 SIM! QUERO O PLANO COMPLETO POR R$29</button>
-    <button class="btn-secondary" onclick="goCompra('basico')" style="font-size:12px;padding:12px;color:var(--text-muted);">Não obrigada, prefiro apenas o básico por R$10</button>
+    <button class="btn-secondary btn-upsell-skip" onclick="goCompra('basico')">Não obrigada, prefiro apenas o básico por R$10</button>
   </div>
 </div>
 
@@ -1724,8 +1738,8 @@ function closeUpsellOutside(e) {
 
 function goCompra(plano) {
   const links = {
-    basico: 'https://pay.hotmart.com/J105718398T?off=hy2mghlj&checkoutMode=10',
-    completo: 'https://pay.hotmart.com/J105718398T?off=w0frq85b&checkoutMode=10'
+    basico: 'https://sonopay.myrnnagurgel.com.br/?preco=1090',
+    completo: 'https://sonopay.myrnnagurgel.com.br/?preco=2990'
   };
   const prices = { basico: 10, completo: 29 };
   // GA4: begin_checkout event
