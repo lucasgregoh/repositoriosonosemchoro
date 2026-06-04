@@ -876,6 +876,9 @@ body::before {
   padding: 12px;
   color: var(--text-muted);
 }
+/* Oculta barra de progresso e logo na primeira tela */
+.progress-bar-wrap { display: none; } /* começa oculta, JS mostra nas demais telas */
+
 /* ---- Trust pills (landing redesign) ---- */
 .trust-pills {
   display: flex;
@@ -1006,7 +1009,6 @@ body::before {
 
 <!-- ===== S0: LANDING ===== -->
 <div class="screen active" id="s0">
-  <div class="logo">Sono<span>Sem</span>Choro</div>
   <div class="online-tag" id="onlineTag" style="margin:8px auto 0;">
     <span class="online-dot"></span>
     <span><span class="online-count" id="onlineCount">174</span> mamães testando o Sono Sem Choro agora</span>
@@ -1625,6 +1627,9 @@ function goTo(id) {
   window.scrollTo(0,0);
   currentStep = stepMap[id] || 0;
   updateProgress();
+  // Oculta barra de progresso na tela s0, mostra nas demais
+  var progressBar = document.querySelector('.progress-bar-wrap');
+  if (progressBar) progressBar.style.display = (id === 's0') ? 'none' : 'block';
   if (id === 's_loading') startLoading();
   if (id === 's_result') { buildResult(); if(window._startToast) window._startToast(); }
   // GA4: track screen view
