@@ -876,7 +876,54 @@ body::before {
   padding: 12px;
   color: var(--text-muted);
 }
-/* ---- Utility classes (replaces inline style="" com var()) ---- */
+/* ---- Trust pills (landing redesign) ---- */
+.trust-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.trust-pill {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.trust-pill.c-green { color: var(--green); border-color: rgba(76,175,125,0.4); }
+
+/* ---- Caixa atenção ---- */
+.atencao-box {
+  background: rgba(200,169,110,0.08);
+  border: 1.5px solid rgba(200,169,110,0.35);
+  border-radius: 14px;
+  padding: 16px 18px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+.atencao-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--moon);
+  margin-bottom: 6px;
+}
+.atencao-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* ---- CTA landing grande ---- */
+.btn-cta-landing {
+  font-size: 18px;
+  padding: 20px 24px;
+  letter-spacing: .2px;
+}
+
 .c-moon       { color: var(--moon); }
 .c-green      { color: var(--green); }
 .c-red        { color: var(--red); }
@@ -965,27 +1012,20 @@ body::before {
     <span><span class="online-count" id="onlineCount">174</span> mamães testando o Sono Sem Choro agora</span>
   </div>
   <div class="landing-hero">
-    <span class="moon-icon">🌙</span>
-    <h1>Por que seu bebê não dorme sozinho <em>e como resolver em 3 dias</em></h1>
-    <img src="https://i.imgur.com/UNFIzAZ.png" alt="Sono Sem Choro" style="width:100%;max-width:420px;display:block;margin:16px auto 0;border-radius:12px;">
-    <p class="landing-sub">Responda 8 perguntas rápidas e receba um diagnóstico personalizado para a situação do SEU bebê</p>
-    <div class="social-strip">✨ <strong>+47.000 mães</strong> já descobriram o perfil do bebê aqui</div>
-    <div class="trust-row">
-      <div class="trust-item">
-        <div class="trust-icon">🕐</div>
-        <span>Leva apenas <strong>3 minutos</strong></span>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">💚</div>
-        <span>Método <strong>100% gentil</strong> zero choro desnecessário</span>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">👶</div>
-        <span>Funciona para bebês de <strong>0 a 3 anos</strong></span>
-      </div>
+    <h1>O Segredo que Faz Bebês Dormirem a Noite Toda <em>sem Choro em 3 Dias</em></h1>
+    <p class="landing-sub">Responda 8 perguntas rápidas e receba o diagnóstico personalizado do sono do SEU bebê agora!</p>
+    <img src="https://i.imgur.com/UNFIzAZ.png" alt="Sono Sem Choro" style="width:100%;max-width:420px;display:block;margin:16px auto 20px;border-radius:12px;">
+    <div class="trust-pills">
+      <div class="trust-pill">+47 mil mães</div>
+      <div class="trust-pill">100% Gentil</div>
+      <div class="trust-pill">Zero abandono</div>
     </div>
-    <button class="btn-primary" onclick="goTo('s_nome')">🎯 COMEÇAR MEU DIAGNÓSTICO GRATUITO</button>
-    <p class="p-privacy">🔒 Seus dados estão protegidos e são 100% privados</p>
+    <div class="atencao-box">
+      <p class="atencao-title">⚠️ Atenção:</p>
+      <p class="atencao-text">Este diagnóstico está disponível somente uma vez por pessoa. Se sair agora, você pode perder sua oportunidade.</p>
+    </div>
+    <button class="btn-primary btn-cta-landing" onclick="goTo('s_nome')">✨ Quero meu Diagnóstico Gratuito!</button>
+    <p class="p-privacy">🔒 Grátis · Apenas 8 minutos</p>
   </div>
 </div>
 
