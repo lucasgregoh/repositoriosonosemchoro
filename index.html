@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0d1117">
+<meta name="theme-color" content="#FDFAF5">
 <meta http-equiv="x-dns-prefetch-control" content="on">
 <meta name="description" content="Descubra por que seu bebê não dorme sozinho e resolva em 3 dias com o método Sono Sem Choro">
 <meta property="og:title" content="Sono Sem Choro - Diagnóstico Gratuito">
@@ -58,17 +58,17 @@ src="https://www.facebook.com/tr?id=449193154116638&ev=PageView&noscript=1"
 <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
 <style>
 :root {
-  --bg: #0d1117;
-  --surface: #161b24;
-  --surface2: #1e2530;
-  --border: #2a3345;
+  --bg: #FDFAF5;
+  --surface: #ffffff;
+  --surface2: #f5efe2;
+  --border: #e8d9be;
   --moon: #c8a96e;
   --moon-light: #e8cc9a;
   --star: #7eb8f7;
   --purple: #9b72cf;
   --purple-light: #c4a0f5;
-  --text: #e8edf5;
-  --text-muted: #8896ab;
+  --text: #1a1535;
+  --text-muted: #6b6680;
   --green: #4caf7d;
   --red: #e05555;
   --white: #ffffff;
@@ -87,8 +87,8 @@ body::before {
   content:'';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(155,114,207,0.18) 0%, transparent 60%),
-              radial-gradient(ellipse 60% 40% at 80% 90%, rgba(126,184,247,0.08) 0%, transparent 50%);
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(155,114,207,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 40% at 80% 90%, rgba(126,184,247,0.06) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -500,7 +500,7 @@ body::before {
   background: var(--white);
   border: 3px solid var(--moon);
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 .sleep-label {
   text-align: center;
@@ -631,7 +631,7 @@ body::before {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.5);
   z-index: 200;
   align-items: flex-end;
   justify-content: center;
@@ -724,7 +724,7 @@ body::before {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--bg);
+  border: 3px solid var(--surface);
 }
 .profile-photo-inner img {
   width: 100%;
@@ -876,6 +876,66 @@ body::before {
   padding: 12px;
   color: var(--text-muted);
 }
+/* ---- Utility classes (replaces inline style="" com var()) ---- */
+.c-moon       { color: var(--moon); }
+.c-green      { color: var(--green); }
+.c-red        { color: var(--red); }
+.c-text       { color: var(--text); }
+.c-muted      { color: var(--text-muted); }
+.c-star       { color: var(--star); }
+.fs-11        { font-size: 11px; }
+.fs-12        { font-size: 12px; }
+.fs-13        { font-size: 13px; }
+.fs-14        { font-size: 14px; }
+.fs-15        { font-size: 15px; }
+.fs-18        { font-size: 18px; }
+.fs-22        { font-size: 22px; }
+.fw-600       { font-weight: 600; }
+.fw-700       { font-weight: 700; }
+.lh-17        { line-height: 1.7; }
+.lh-15        { line-height: 1.5; }
+.ta-center    { text-align: center; }
+.ta-left      { text-align: left; }
+.td-lt        { text-decoration: line-through; }
+.mt-8         { margin-top: 8px; }
+.mt-10        { margin-top: 10px; }
+.mt-12        { margin-top: 12px; }
+.mt-14        { margin-top: 14px; }
+.mb-8         { margin-bottom: 8px; }
+.mb-10        { margin-bottom: 10px; }
+.mb-12        { margin-bottom: 12px; }
+.mb-14        { margin-bottom: 14px; }
+.mb-16        { margin-bottom: 16px; }
+.ls-3         { letter-spacing: .3px; }
+.ls-2         { letter-spacing: 2px; }
+.tt-upper     { text-transform: uppercase; }
+.inline-badge-moon  { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; background:rgba(200,169,110,0.12); border:1px solid rgba(200,169,110,0.3); color:var(--moon); }
+.inline-badge-green { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; background:rgba(76,175,125,0.1);  border:1px solid rgba(76,175,125,0.3);  color:var(--green); }
+.inline-badge-star  { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; background:rgba(126,184,247,0.1); border:1px solid rgba(126,184,247,0.3); color:var(--star); }
+.playfair-title { font-family:'Playfair Display',serif; font-size:22px; color:var(--moon); margin-bottom:16px; text-align:center; }
+.upsell-alert   { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--moon); }
+.upsell-body    { font-size:13px; color:var(--text-muted); text-align:left; }
+.upsell-price-highlight { color:var(--moon); font-size:18px; }
+.upsell-strikethrough   { color:var(--red); text-decoration:line-through; }
+.plan-bonus-price { color:var(--red); font-size:12px; text-decoration:line-through; }
+.p-privacy    { font-size:12px; color:var(--text-muted); margin-top:12px; text-align:center; }
+.p-secure     { text-align:center; font-size:12px; color:var(--text-muted); margin-top:12px; }
+.p-vitalicio  { text-align:center; font-size:11px; color:var(--text-muted); margin-top:8px; letter-spacing:.3px; }
+.p-basico-sub { font-size:13px; color:var(--text-muted); margin-bottom:12px; }
+.p-cta-bold   { font-size:14px; font-weight:600; color:var(--text); margin-bottom:10px; }
+.p-body-muted { font-size:14px; color:var(--text-muted); line-height:1.7; margin-bottom:12px; }
+.p-body-muted-mb14 { font-size:14px; color:var(--text-muted); line-height:1.7; margin-bottom:14px; }
+.p-body-bold  { font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px; }
+.p-body-bold-last { font-size:15px; font-weight:600; color:var(--text); line-height:1.7; }
+.p-body-muted-mt14 { font-size:14px; color:var(--text-muted); line-height:1.7; margin-top:14px; }
+.p-resumo-intro { font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px; }
+.p-resumo-sub   { font-size:14px; color:var(--text-muted); line-height:1.7; margin-bottom:14px; }
+.assoc-destaque { font-size:15px; font-weight:600; color:var(--moon); margin:8px 0 16px; text-align:center; }
+.q-em-moon  { color:var(--moon); }
+.q-em-green { color:var(--green); }
+.exhaust-label { color:var(--red); }
+.upsell-bonus-list { font-size:13px; color:var(--text-muted); text-align:left; }
+.centenas-text { font-size:13px; color:var(--text-muted); margin-bottom:16px; text-align:center; }
 </style>
 </head>
 <body>
@@ -907,6 +967,7 @@ body::before {
   <div class="landing-hero">
     <span class="moon-icon">🌙</span>
     <h1>Por que seu bebê não dorme sozinho <em>e como resolver em 3 dias</em></h1>
+    <img src="https://i.imgur.com/oHlRVCa.png" alt="Sono Sem Choro" style="width:100%;max-width:420px;display:block;margin:16px auto 0;border-radius:12px;">
     <p class="landing-sub">Responda 8 perguntas rápidas e receba um diagnóstico personalizado para a situação do SEU bebê</p>
     <div class="social-strip">✨ <strong>+47.000 mães</strong> já descobriram o perfil do bebê aqui</div>
     <div class="trust-row">
@@ -924,7 +985,7 @@ body::before {
       </div>
     </div>
     <button class="btn-primary" onclick="goTo('s_nome')">🎯 COMEÇAR MEU DIAGNÓSTICO GRATUITO</button>
-    <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">🔒 Seus dados estão protegidos e são 100% privados</p>
+    <p class="p-privacy">🔒 Seus dados estão protegidos e são 100% privados</p>
   </div>
 </div>
 
@@ -947,7 +1008,7 @@ body::before {
 <!-- ===== S1: COMO O BEBÊ DORME HOJE ===== -->
 <div class="screen" id="s1">
   <div class="logo">Sono<span>Sem</span>Choro</div>
-  <h2 class="q-title">Como seu bebê dorme <em style="color:var(--moon)">HOJE</em> à noite?</h2>
+  <h2 class="q-title">Como seu bebê dorme <em class="q-em-moon">HOJE</em> à noite?</h2>
   <p class="q-sub">Seja sincera ninguém está te julgando ❤️</p>
   <div class="opts">
     <div class="opt" onclick="selectOpt(this,'s1','s2')" data-s1="peito">
@@ -972,7 +1033,7 @@ body::before {
 <!-- ===== S2: QUANTAS VEZES ACORDA ===== -->
 <div class="screen" id="s2">
   <div class="logo">Sono<span>Sem</span>Choro</div>
-  <h2 class="q-title">Quantas vezes seu bebê acorda <em style="color:var(--moon)">na madrugada</em>?</h2>
+  <h2 class="q-title">Quantas vezes seu bebê acorda <em class="q-em-moon">na madrugada</em>?</h2>
   <p class="q-sub">Pense na noite de ontem...</p>
   <div class="opts">
     <div class="opt" onclick="selectOpt(this,'s2','s3')" data-s2="5+">
@@ -1091,7 +1152,7 @@ body::before {
   <h2 class="q-title" style="font-size:18px;">Veja o que está acontecendo...</h2>
   <div class="assoc-diagram">
     <p class="section-label" style="text-align:center">O que aconteceu</p>
-    <p style="font-size:15px;font-weight:600;color:var(--moon);margin:8px 0 16px;text-align:center;"><span class="baby-name">Seu bebê</span> criou uma<br><strong style="font-size:18px;">ASSOCIAÇÃO DE SONO</strong></p>
+    <p class="assoc-destaque"><span class="baby-name">Seu bebê</span> criou uma<br><strong style="font-size:18px;">ASSOCIAÇÃO DE SONO</strong></p>
     <div class="assoc-row">
       <div class="assoc-box">
         <span class="big">😴</span>
@@ -1160,7 +1221,7 @@ body::before {
 <!-- ===== S_INT2: VOCÊ NÃO FALHOU ===== -->
 <div class="screen" id="s_int2">
   <div class="logo">Sono<span>Sem</span>Choro</div>
-  <h2 class="q-title">Você <em style="color:var(--green)">NÃO</em> falhou ❤️</h2>
+  <h2 class="q-title">Você <em class="q-em-green">NÃO</em> falhou ❤️</h2>
   <p class="q-sub">A maioria dos métodos na internet tem 3 problemas sérios:</p>
   <div class="info-card">
     <div class="info-item">
@@ -1215,7 +1276,7 @@ body::before {
 <!-- ===== S8: COMPROMETIMENTO ===== -->
 <div class="screen" id="s8">
   <div class="logo">Sono<span>Sem</span>Choro</div>
-  <h2 class="q-title">Você consegue dedicar<br><em style="color:var(--moon)">15 minutos por dia</em><br>durante 3 noites?</h2>
+  <h2 class="q-title">Você consegue dedicar<br><em class="q-em-moon">15 minutos por dia</em><br>durante 3 noites?</h2>
   <p class="q-sub">Esse é o tempo necessário para aplicar o método:</p>
   <div class="opts">
     <div class="opt" onclick="selectOpt(this,'s8','s_dep')">
@@ -1259,6 +1320,8 @@ body::before {
       <div class="dep-quote">"Iniciei 100% ontem desde a primeira soneca do dia até o sono noturno. Todas as sonecas foram no berço o que antes era só no braço. Hoje na primeira soneca já dormiu no berço de primeira!"</div>
     </div>
   </div>
+
+  <button class="btn-primary" onclick="goTo('s_loading')" style="margin-top:8px;">VER MEU DIAGNÓSTICO →</button>
 
   <div class="dep-card">
     <img class="dep-img" loading="lazy" data-src="data:image/jpeg;base64,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" src="" style="min-height:40px;background:var(--surface2);" alt="Depoimento Ju" />
@@ -1311,7 +1374,7 @@ body::before {
   <div class="exhaustion-bar">
     <div class="exhaustion-label">
       <span>Nível de exaustão da mãe:</span>
-      <span id="exhaustLabel" style="color:var(--red)">Alto / Crítico</span>
+      <span id="exhaustLabel" class="exhaust-label">Alto / Crítico</span>
     </div>
     <div class="sleep-track">
       <div class="sleep-thumb" id="sleepThumb" style="left:20%"></div>
@@ -1368,21 +1431,21 @@ body::before {
     </div>
     <div class="plan-original">De <s>R$1.779</s> por apenas R$29 hoje</div>
     <ul class="plan-features">
-      <li><span class="fi">✅</span><strong>Método Sono Sem Choro</strong> (acesso vitalício com atualizações) <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$27</span></li>
+      <li><span class="fi">✅</span><strong>Método Sono Sem Choro</strong> (acesso vitalício com atualizações) <span class="plan-bonus-price">R$27</span></li>
       <li><span class="fi">✅</span>Passo a passo para as 3 primeiras noites</li>
       <li><span class="fi">✅</span>Técnicas por faixa etária (0 a 3 anos)</li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Mapa de Crise do Sono: quais idades ocorrem as principais regressões <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$27</span></li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Guia de Emergência: soluções rápidas para lidar com noites difíceis <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$37</span></li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Tabela de rotina ideal para o desmame noturno <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$97</span></li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Consultoria com Psicóloga: Como Tornar a Maternidade Mais Leve <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$397</span></li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Estudo de caso: fazendo o bebê dormir a noite toda após 3 dias <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$129</span></li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Gravação da Mentoria Exclusiva com Consultora de Sono <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$248</span></li>
-      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Master Aulas com Terapeuta Ocupacional (sono do bebê na prática) <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$397</span></li>
-      <li><span class="fi">✅</span><strong>[NOVO]</strong> Consultoria com Pediatra: Amamentar Sem Dor, Alimentar com Segurança e Dormir Melhor <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$447</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Mapa de Crise do Sono: quais idades ocorrem as principais regressões <span class="plan-bonus-price">R$27</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Guia de Emergência: soluções rápidas para lidar com noites difíceis <span class="plan-bonus-price">R$37</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Tabela de rotina ideal para o desmame noturno <span class="plan-bonus-price">R$97</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Consultoria com Psicóloga: Como Tornar a Maternidade Mais Leve <span class="plan-bonus-price">R$397</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Estudo de caso: fazendo o bebê dormir a noite toda após 3 dias <span class="plan-bonus-price">R$129</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Gravação da Mentoria Exclusiva com Consultora de Sono <span class="plan-bonus-price">R$248</span></li>
+      <li><span class="fi">✅</span><strong>BÔNUS:</strong> Master Aulas com Terapeuta Ocupacional (sono do bebê na prática) <span class="plan-bonus-price">R$397</span></li>
+      <li><span class="fi">✅</span><strong>[NOVO]</strong> Consultoria com Pediatra: Amamentar Sem Dor, Alimentar com Segurança e Dormir Melhor <span class="plan-bonus-price">R$447</span></li>
       <li><span class="fi">🔥</span><strong>[NOVO]</strong> Mentoria Ao Vivo dia <strong>09/05</strong> com obstetra: <em>Como acelerar a recuperação do corpo depois da gravidez</em></li>
     </ul>
     <button class="btn-primary btn-pulse" onclick="goCompra('completo')">🌙 QUERO O PLANO COMPLETO →</button>
-    <p style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:8px;letter-spacing:.3px;">Pague uma vez e tenha acesso vitalício!</p>
+    <p class="p-vitalicio">Pague uma vez e tenha acesso vitalício!</p>
   </div>
 
   <!-- PLANO BÁSICO - SEGUNDO -->
@@ -1393,7 +1456,7 @@ body::before {
       <span class="amount">10</span>
     </div>
     <div class="plan-original">De <s>R$97</s> por apenas R$10 hoje</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Acesso por 2 meses. Não acompanha os bônus.</p>
+    <p class="p-basico-sub">Acesso por 2 meses. Não acompanha os bônus.</p>
     <ul class="plan-features">
       <li><span class="fi">✅</span>Método Sono Sem Choro</li>
       <li><span class="fi">✅</span>Técnicas por faixa etária (0 a 3 anos)</li>
@@ -1430,24 +1493,24 @@ body::before {
   </div>
 
   <button class="btn-primary" onclick="scrollToPlans()" style="margin-top:8px;">🌙 GARANTIR MEU PLANO AGORA →</button>
-  <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:12px;">🔒 Pagamento 100% seguro · Acesso imediato</p>
+  <p class="p-secure">🔒 Pagamento 100% seguro · Acesso imediato</p>
 
   <!-- RESUMINDO -->
   <div class="info-card" style="margin-top:28px;background:rgba(155,114,207,0.06);border-color:rgba(155,114,207,0.25);">
-    <h2 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--moon);margin-bottom:16px;text-align:center;">Resumindo...</h2>
-    <p style="font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px;">Pode ser a última vez que você acessa esta página, então sugiro que garanta seu acesso agora para começar a ensinar seu bebê a dormir melhor ainda hoje!</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;">A proposta é simples e clara: você vai aprender, na prática, um método comprovado que ensina o seu bebê a dormir a noite toda sem precisar de colo, peito ou sofrimento.</p>
-    <p style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;">Você não precisa:</p>
+    <h2 class="playfair-title">Resumindo...</h2>
+    <p class="p-resumo-intro">Pode ser a última vez que você acessa esta página, então sugiro que garanta seu acesso agora para começar a ensinar seu bebê a dormir melhor ainda hoje!</p>
+    <p class="p-resumo-sub">A proposta é simples e clara: você vai aprender, na prática, um método comprovado que ensina o seu bebê a dormir a noite toda sem precisar de colo, peito ou sofrimento.</p>
+    <p class="p-cta-bold">Você não precisa:</p>
     <div class="info-item"><span class="info-item-icon">❌</span><div class="info-item-text">Deixar seu bebê chorando sozinho no berço.</div></div>
     <div class="info-item"><span class="info-item-icon">❌</span><div class="info-item-text">Passar noites em claro amamentando ou ninando.</div></div>
     <div class="info-item"><span class="info-item-icon">❌</span><div class="info-item-text">Tentar métodos que não funcionam e só deixam você mais cansada.</div></div>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-top:14px;">Acho justo você ver por dentro e se não gostar, devolvo o seu investimento.</p>
+    <p class="p-body-muted-mt14">Acho justo você ver por dentro e se não gostar, devolvo o seu investimento.</p>
   </div>
   <button class="btn-primary" onclick="scrollToPlans()" style="margin-top:16px;">🌙 QUERO GARANTIR MEU ACESSO AGORA →</button>
 
   <!-- QUEM SOU EU -->
   <div class="info-card" style="margin-top:32px;">
-    <h2 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--moon);margin-bottom:16px;text-align:center;">Quem sou eu?</h2>
+    <h2 class="playfair-title">Quem sou eu?</h2>
     <div class="profile-photo-wrap">
       <div class="profile-photo-ring">
         <div class="profile-photo-inner">
@@ -1463,19 +1526,19 @@ body::before {
     </div>
     <!-- TAGS DISCRETAS -->
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;justify-content:center;">
-      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.3);color:var(--moon);">✨ Mais de 10 mil mães</span>
-      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(76,175,125,0.1);border:1px solid rgba(76,175,125,0.3);color:var(--green);">✅ Método aprovado</span>
-      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(126,184,247,0.1);border:1px solid rgba(126,184,247,0.3);color:var(--star);">🕐 2 anos no mercado</span>
+      <span class="inline-badge-moon">✨ Mais de 47 mil mães</span>
+      <span class="inline-badge-green">✅ Método aprovado</span>
+      <span class="inline-badge-star">🕐 2 anos no mercado</span>
     </div>
-    <p style="font-size:15px;font-weight:600;color:var(--text);line-height:1.7;margin-bottom:14px;">Se o seu bebê não dorme a noite toda... você não precisa continuar vivendo assim.</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Olá, sou a Myrnna Gurgel, cristã, esposa do Lucas Gregoh e mãe do Noah e da Lia.</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">E já estive no seu lugar: exausta, perdida e sem saber como fazer meu bebê dormir.</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Depois de tentar de tudo... descobri um método que fez meus filhos dormirem a noite inteira sem choro e sem sofrimento.</p>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">Hoje, ajudo milhares de mães que também estavam cansadas, sobrecarregadas e sem tempo pra si mesmas... a finalmente terem noites tranquilas novamente.</p>
-    <p style="font-size:15px;font-weight:600;color:var(--text);line-height:1.7;">Você não precisa aceitar noites em claro como "fase".<br><br>👉 Clique agora e descubra como fazer seu bebê dormir melhor ainda hoje.</p>
+    <p class="p-body-bold">Se o seu bebê não dorme a noite toda... você não precisa continuar vivendo assim.</p>
+    <p class="p-body-muted">Olá, sou a Myrnna Gurgel, cristã, esposa do Lucas Gregoh e mãe do Noah e da Lia.</p>
+    <p class="p-body-muted">E já estive no seu lugar: exausta, perdida e sem saber como fazer meu bebê dormir.</p>
+    <p class="p-body-muted">Depois de tentar de tudo... descobri um método que fez meus filhos dormirem a noite inteira sem choro e sem sofrimento.</p>
+    <p class="p-body-muted">Hoje, ajudo milhares de mães que também estavam cansadas, sobrecarregadas e sem tempo pra si mesmas... a finalmente terem noites tranquilas novamente.</p>
+    <p class="p-body-bold-last">Você não precisa aceitar noites em claro como "fase".<br><br>👉 Clique agora e descubra como fazer seu bebê dormir melhor ainda hoje.</p>
   </div>
   <button class="btn-primary" onclick="scrollToPlans()" style="margin-top:16px;">🌙 GARANTIR ACESSO AGORA →</button>
-  <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:12px;">🔒 Pagamento 100% seguro · Acesso imediato</p>
+  <p class="p-secure">🔒 Pagamento 100% seguro · Acesso imediato</p>
 </div>
 
 </div><!-- /wrap -->
@@ -1485,20 +1548,20 @@ body::before {
   <div class="overlay-card">
     <button onclick="closeUpsell()" class="overlay-close-btn">✕</button>
     <div style="text-align:center;margin-bottom:4px;">
-      <span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--moon)">⚠️ ESPERA!</span>
+      <span class="upsell-alert">⚠️ ESPERA!</span>
     </div>
     <h3 style="font-size:19px;margin-bottom:12px;">Antes de continuar com o básico...</h3>
     <div style="background:rgba(200,169,110,0.1);border:1px solid rgba(200,169,110,0.3);border-radius:12px;padding:14px;margin-bottom:16px;">
-      <p style="font-size:14px;color:var(--text);text-align:left;margin-bottom:8px;">Por apenas <strong style="color:var(--moon);font-size:18px;">R$19 a mais</strong>, você leva o <strong>Plano Completo</strong> com mais de <strong style="color:var(--red);text-decoration:line-through;">R$1.779</strong> em bônus:</p>
-      <div style="font-size:13px;color:var(--text-muted);text-align:left;">
-        <div style="padding:4px 0;">✅ Mapa de Crise do Sono <span style="color:var(--red);text-decoration:line-through;">R$27</span></div>
-        <div style="padding:4px 0;">✅ Consultoria com Psicóloga <span style="color:var(--red);text-decoration:line-through;">R$397</span></div>
-        <div style="padding:4px 0;">✅ Mentoria com Consultora de Sono <span style="color:var(--red);text-decoration:line-through;">R$248</span></div>
-        <div style="padding:4px 0;">✅ Master Aulas com Terapeuta Ocupacional <span style="color:var(--red);text-decoration:line-through;">R$397</span></div>
+      <p class="fs-14 c-text ta-left mb-8">Por apenas <strong class="upsell-price-highlight">R$19 a mais</strong>, você leva o <strong>Plano Completo</strong> com mais de <strong class="upsell-strikethrough">R$1.779</strong> em bônus:</p>
+      <div class="upsell-bonus-list">
+        <div style="padding:4px 0;">✅ Mapa de Crise do Sono <span class="upsell-strikethrough">R$27</span></div>
+        <div style="padding:4px 0;">✅ Consultoria com Psicóloga <span class="upsell-strikethrough">R$397</span></div>
+        <div style="padding:4px 0;">✅ Mentoria com Consultora de Sono <span class="upsell-strikethrough">R$248</span></div>
+        <div style="padding:4px 0;">✅ Master Aulas com Terapeuta Ocupacional <span class="upsell-strikethrough">R$397</span></div>
         <div style="padding:4px 0;">🔥 Mentoria Ao Vivo com Obstetra + muito mais!</div>
       </div>
     </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;text-align:center;">Centenas de mães dizem que os bônus valem mais que o método principal!</p>
+    <p class="centenas-text">Centenas de mães dizem que os bônus valem mais que o método principal!</p>
     <button class="btn-primary" onclick="goCompra('completo')" style="margin-bottom:10px;">🌙 SIM! QUERO O PLANO COMPLETO POR R$29</button>
     <button class="btn-secondary btn-upsell-skip" onclick="goCompra('basico')">Não obrigada, prefiro apenas o básico por R$10</button>
   </div>
@@ -1598,9 +1661,9 @@ function buildResult() {
   const b = state.nomeBebe || 'seu bebê';
   const idade = state.idade;
 
-  document.getElementById('resultTitle').innerHTML = n + ', o perfil de sono de <strong style="color:var(--moon)">' + b + '</strong> está pronto!';
+  document.getElementById('resultTitle').innerHTML = n + ', o perfil de sono de <strong class="c-moon">' + b + '</strong> está pronto!';
   document.getElementById('nomeUrgency').innerHTML = '⚠️ ' + n + ', cada noite que passa...';
-  document.getElementById('ofertaTitle').innerHTML = n + ', o plano de <strong style="color:var(--moon)">' + b + '</strong> está pronto';
+  document.getElementById('ofertaTitle').innerHTML = n + ', o plano de <strong class="c-moon">' + b + '</strong> está pronto';
 
   // ---- READ ALL ANSWERS ----
   const s1El = document.querySelector('#s1 .opt.selected');
