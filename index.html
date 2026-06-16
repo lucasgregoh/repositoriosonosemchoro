@@ -870,12 +870,36 @@ body::before {
   color: var(--star);
 }
 
+/* Warning / scarcity block */
+.warning-block {
+  background: rgba(200,169,110,0.08);
+  border: 1px solid rgba(200,169,110,0.28);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 4px 0 14px;
+  text-align: left;
+}
+.warning-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--moon);
+  margin-bottom: 4px;
+}
+.warning-text {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 /* Upsell skip button */
 .btn-upsell-skip {
   font-size: 12px;
   padding: 12px;
   color: var(--text-muted);
 }
+
+/* Utility class used inside JS-generated HTML strings (avoids inline style in JS) */
+.moon-text { color: var(--moon); }
 </style>
 </head>
 <body>
@@ -923,25 +947,13 @@ body::before {
         <span>Funciona para bebês de <strong>0 a 3 anos</strong></span>
       </div>
     </div>
-    <button class="btn-primary" onclick="goTo('s_nome')">🎯 COMEÇAR MEU DIAGNÓSTICO GRATUITO</button>
+    <div class="warning-block">
+      <div class="warning-title">⚠️ Atenção mamãe:</div>
+      <p class="warning-text">Esta avaliação está disponível somente uma vez por pessoa. Se sair agora, você pode perder sua oportunidade.</p>
+    </div>
+    <button class="btn-primary" onclick="goTo('s1')">🎯 COMEÇAR MEU DIAGNÓSTICO GRATUITO</button>
     <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">🔒 Seus dados estão protegidos e são 100% privados</p>
   </div>
-</div>
-
-<!-- ===== S_NOME: CAPTURA DE NOME ===== -->
-<div class="screen" id="s_nome">
-  <div class="logo">Sono<span>Sem</span>Choro</div>
-  <h2 class="q-title">Antes de começar,<br>nos apresente!</h2>
-  <p class="q-sub">Para personalizar o diagnóstico para vocês ❤️</p>
-  <div class="input-wrap">
-    <span class="input-icon">👤</span>
-    <input type="text" id="inputNome" placeholder="Seu nome (mamãe)" autocomplete="given-name" />
-  </div>
-  <div class="input-wrap">
-    <span class="input-icon">👶</span>
-    <input type="text" id="inputNomeBebe" placeholder="Nome do seu bebê" autocomplete="off" />
-  </div>
-  <button class="btn-primary" onclick="saveNome()">CONTINUAR →</button>
 </div>
 
 <!-- ===== S1: COMO O BEBÊ DORME HOJE ===== -->
@@ -1278,7 +1290,23 @@ body::before {
     </div>
   </div>
 
-  <button class="btn-primary" onclick="goTo('s_loading')" style="margin-top:8px;">VER MEU DIAGNÓSTICO →</button>
+  <button class="btn-primary" onclick="goTo('s_nome')" style="margin-top:8px;">VER MEU DIAGNÓSTICO →</button>
+</div>
+
+<!-- ===== S_NOME: CAPTURA DE NOME (entre depoimentos e loading) ===== -->
+<div class="screen" id="s_nome">
+  <div class="logo">Sono<span>Sem</span>Choro</div>
+  <h2 class="q-title">Antes de gerar seu diagnóstico,<br>nos apresente!</h2>
+  <p class="q-sub">Para personalizar o resultado para vocês ❤️</p>
+  <div class="input-wrap">
+    <span class="input-icon">👤</span>
+    <input type="text" id="inputNome" placeholder="Seu nome (mamãe)" autocomplete="given-name" />
+  </div>
+  <div class="input-wrap">
+    <span class="input-icon">👶</span>
+    <input type="text" id="inputNomeBebe" placeholder="Nome do seu bebê" autocomplete="off" />
+  </div>
+  <button class="btn-primary" onclick="saveNome()">VER MEU DIAGNÓSTICO →</button>
 </div>
 
 <!-- ===== S_LOADING: LOADING ===== -->
@@ -1463,7 +1491,7 @@ body::before {
     </div>
     <!-- TAGS DISCRETAS -->
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;justify-content:center;">
-      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.3);color:var(--moon);">✨ Mais de 10 mil mães</span>
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.3);color:var(--moon);">✨ Mais de 47 mil mães</span>
       <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(76,175,125,0.1);border:1px solid rgba(76,175,125,0.3);color:var(--green);">✅ Método aprovado</span>
       <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(126,184,247,0.1);border:1px solid rgba(126,184,247,0.3);color:var(--star);">🕐 2 anos no mercado</span>
     </div>
@@ -1511,9 +1539,9 @@ const TOTAL_STEPS = 12;
 let currentStep = 0;
 
 const stepMap = {
-  s0: 0, s_nome: 1, s1: 2, s2: 3, s3: 4, s4: 5,
-  s5: 6, s_int1: 7, s6: 8, s_int2: 9, s7: 10,
-  s8: 11, s_dep: 12, s_loading: 13, s_result: 14, s_oferta: 15
+  s0: 0, s1: 1, s2: 2, s3: 3, s4: 4,
+  s5: 5, s_int1: 6, s6: 7, s_int2: 8, s7: 9,
+  s8: 10, s_dep: 11, s_nome: 12, s_loading: 13, s_result: 14, s_oferta: 15
 };
 
 function goTo(id) {
@@ -1546,7 +1574,7 @@ function saveNome() {
   // GA4: lead captured
   track('quiz_lead_captured', { has_baby_name: b.length > 0 });
   track('generate_lead', { currency: 'BRL' });
-  goTo('s1');
+  goTo('s_loading');
 }
 
 function updatePersonalization() {
@@ -1598,9 +1626,9 @@ function buildResult() {
   const b = state.nomeBebe || 'seu bebê';
   const idade = state.idade;
 
-  document.getElementById('resultTitle').innerHTML = n + ', o perfil de sono de <strong style="color:var(--moon)">' + b + '</strong> está pronto!';
+  document.getElementById('resultTitle').innerHTML = n + ', o perfil de sono de <strong class="moon-text">' + b + '</strong> está pronto!';
   document.getElementById('nomeUrgency').innerHTML = '⚠️ ' + n + ', cada noite que passa...';
-  document.getElementById('ofertaTitle').innerHTML = n + ', o plano de <strong style="color:var(--moon)">' + b + '</strong> está pronto';
+  document.getElementById('ofertaTitle').innerHTML = n + ', o plano de <strong class="moon-text">' + b + '</strong> está pronto';
 
   // ---- READ ALL ANSWERS ----
   const s1El = document.querySelector('#s1 .opt.selected');
