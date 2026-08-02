@@ -900,6 +900,12 @@ body::before {
 
 /* Utility class used inside JS-generated HTML strings (avoids inline style in JS) */
 .moon-text { color: var(--moon); }
+
+/* Upsell overlay scroll fix */
+.overlay.open { align-items: flex-end; }
+@media (max-height: 700px) {
+  .overlay-card { padding: 20px 20px 28px; }
+}
 </style>
 </head>
 <body>
@@ -1392,9 +1398,10 @@ body::before {
     <div class="plan-name">Plano Completo</div>
     <div class="plan-price">
       <span class="currency">R$</span>
-      <span class="amount">29</span>
+      <span class="amount">19</span>
+      <span class="cents">,90</span>
     </div>
-    <div class="plan-original">De <s>R$1.779</s> por apenas R$29 hoje</div>
+    <div class="plan-original">De <s>R$197</s> por apenas R$19,90 hoje</div>
     <ul class="plan-features">
       <li><span class="fi">✅</span><strong>Método Sono Sem Choro</strong> (acesso vitalício com atualizações) <span style="color:var(--red);font-size:12px;text-decoration:line-through">R$27</span></li>
       <li><span class="fi">✅</span>Passo a passo para as 3 primeiras noites</li>
@@ -1418,9 +1425,10 @@ body::before {
     <div class="plan-name">Plano Básico</div>
     <div class="plan-price">
       <span class="currency">R$</span>
-      <span class="amount">10</span>
+      <span class="amount">1</span>
+      <span class="cents">,99</span>
     </div>
-    <div class="plan-original">De <s>R$97</s> por apenas R$10 hoje</div>
+    <div class="plan-original">De <s>R$97</s> por apenas R$1,99 hoje</div>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Acesso por 7 dias.</p>
     <ul class="plan-features">
       <li><span class="fi">✅</span>Método Sono Sem Choro</li>
@@ -1512,26 +1520,54 @@ body::before {
 </div><!-- /wrap -->
 
 <!-- UPSELL OVERLAY -->
+<!-- CANVAS DE CONFETES -->
+<canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;display:none;"></canvas>
+
 <div class="overlay" id="upsellOverlay" onclick="closeUpsellOutside(event)">
-  <div class="overlay-card">
+  <div class="overlay-card" style="max-height:92vh;overflow-y:auto;">
     <button onclick="closeUpsell()" class="overlay-close-btn">✕</button>
-    <div style="text-align:center;margin-bottom:4px;">
-      <span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--moon)">⚠️ ESPERA!</span>
+
+    <!-- Topo: Ainda da tempo -->
+    <div style="text-align:center;margin-bottom:12px;">
+      <span style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green)">🎉 AINDA DÁ TEMPO!</span>
     </div>
-    <h3 style="font-size:19px;margin-bottom:12px;">Antes de continuar com o básico...</h3>
-    <div style="background:rgba(200,169,110,0.1);border:1px solid rgba(200,169,110,0.3);border-radius:12px;padding:14px;margin-bottom:16px;">
-      <p style="font-size:14px;color:var(--text);text-align:left;margin-bottom:8px;">Por apenas <strong style="color:var(--moon);font-size:18px;">R$19 a mais</strong>, você leva o <strong>Plano Completo</strong> com mais de <strong style="color:var(--red);text-decoration:line-through;">R$1.779</strong> em bônus:</p>
-      <div style="font-size:13px;color:var(--text-muted);text-align:left;">
-        <div style="padding:4px 0;">✅ Mapa de Crise do Sono <span style="color:var(--red);text-decoration:line-through;">R$27</span></div>
-        <div style="padding:4px 0;">✅ Consultoria com Psicóloga <span style="color:var(--red);text-decoration:line-through;">R$397</span></div>
-        <div style="padding:4px 0;">✅ Mentoria com Consultora de Sono <span style="color:var(--red);text-decoration:line-through;">R$248</span></div>
-        <div style="padding:4px 0;">✅ Master Aulas com Terapeuta Ocupacional <span style="color:var(--red);text-decoration:line-through;">R$397</span></div>
-        <div style="padding:4px 0;">🔥 Mentoria Ao Vivo com Obstetra + muito mais!</div>
+
+    <!-- Barra de vagas -->
+    <div style="background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:12px;font-weight:700;color:var(--red);">⚡ Vagas se encerrando</span>
+        <span style="font-size:13px;font-weight:700;color:var(--red);" id="vagasPct">87%</span>
       </div>
+      <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
+        <div id="vagasBar" style="height:100%;border-radius:4px;background:linear-gradient(90deg,#e05555,#f0b429);transition:width 1.2s cubic-bezier(.4,0,.2,1);width:87%;"></div>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Das vagas promocionais já foram preenchidas</p>
     </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;text-align:center;">Centenas de mães dizem que os bônus valem mais que o método principal!</p>
-    <button class="btn-primary" onclick="goCompra('completo')" style="margin-bottom:10px;">🌙 SIM! QUERO O PLANO COMPLETO POR R$29</button>
-    <button class="btn-secondary btn-upsell-skip" onclick="goCompra('basico')">Não obrigada, prefiro apenas o básico por R$10</button>
+
+    <!-- Mensagem principal -->
+    <div style="background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.25);border-radius:12px;padding:16px;margin-bottom:16px;">
+      <p style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:0;">
+        A oferta de <strong style="color:var(--red);text-decoration:line-through;">R$1,99</strong> finalizou pois fechamos o lote promocional.<br><br>
+        O Plano Completo de <strong style="color:var(--moon);">R$19</strong> vai finalizar <strong>HOJE às <span id="upsellHora"></span></strong> ou até fechar as vagas. Ainda dá tempo você garantir com os bônus incríveis e acesso vitalício!
+      </p>
+    </div>
+
+    <!-- Preço -->
+    <div style="text-align:center;margin-bottom:4px;">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:2px;">De <s style="color:var(--red);">R$197</s> por apenas</p>
+      <div style="display:flex;align-items:baseline;justify-content:center;gap:4px;">
+        <span style="font-size:15px;color:var(--text-muted);font-weight:600;">R$</span>
+        <span style="font-size:48px;font-weight:700;color:var(--text);line-height:1;">19</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Pague uma vez e tenha acesso vitalício!</p>
+    </div>
+
+    <!-- Botões -->
+    <button class="btn-primary btn-pulse" onclick="goCompra('completo')" style="margin-bottom:10px;margin-top:14px;">🌙 Quero a oferta completa com desconto!</button>
+    <button class="btn-secondary btn-upsell-skip" onclick="closeUpsell()">Obrigada, mas vou deixar passar.</button>
+
+    <!-- Texto discreto -->
+    <p style="font-size:10.5px;color:var(--text-muted);text-align:center;margin-top:12px;opacity:0.7;">Promoção em comemoração às 47 mil alunas. Aproveite agora.</p>
   </div>
 </div>
 
@@ -1754,8 +1790,158 @@ function buildResult() {
   document.getElementById('exhaustLabel').textContent = exhaustText;
 }
 
+// ===========================
+// UPSELL: HORA DINÂMICA
+// ===========================
+function getUpsellHora() {
+  var now = new Date();
+  var future = new Date(now.getTime() + 60 * 60 * 1000); // +1h
+  var h = future.getHours();
+  var m = future.getMinutes();
+  // Arredonda para hora cheia ou meia
+  if (m < 15) { m = 0; }
+  else if (m < 45) { m = 30; }
+  else { h = (h + 1) % 24; m = 0; }
+  var hStr = h + 'h';
+  if (m === 30) hStr += '30';
+  return hStr;
+}
+
+// ===========================
+// UPSELL: BARRA DE VAGAS (persiste via localStorage)
+// ===========================
+var _vagasTimer = null;
+var VAGAS_KEY = 'ssc_vagas_pct';
+var VAGAS_MAX = 98;
+
+function getVagasPct() {
+  try {
+    var stored = localStorage.getItem(VAGAS_KEY);
+    if (stored !== null) {
+      var v = parseInt(stored, 10);
+      if (!isNaN(v) && v >= 87 && v <= VAGAS_MAX) return v;
+    }
+  } catch(e) {}
+  return 87;
+}
+
+function setVagasPct(v) {
+  try { localStorage.setItem(VAGAS_KEY, String(v)); } catch(e) {}
+}
+
+function renderVagas(pct) {
+  var bar = document.getElementById('vagasBar');
+  var label = document.getElementById('vagasPct');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = pct + '%';
+}
+
+function startVagasTimer() {
+  if (_vagasTimer) return; // já rodando
+  _vagasTimer = setInterval(function() {
+    var current = getVagasPct();
+    if (current >= VAGAS_MAX) {
+      clearInterval(_vagasTimer);
+      _vagasTimer = null;
+      return;
+    }
+    var next = Math.min(current + 1, VAGAS_MAX);
+    setVagasPct(next);
+    renderVagas(next);
+  }, 60000); // +1% por minuto
+}
+
+// ===========================
+// UPSELL: CONFETES
+// ===========================
+var _confettiAnim = null;
+
+function launchConfetti() {
+  var canvas = document.getElementById('confettiCanvas');
+  if (!canvas) return;
+  canvas.style.display = 'block';
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  var pieces = [];
+  var colors = ['#9b72cf','#c8a96e','#7eb8f7','#4caf7d','#e8cc9a','#f0b429','#e05555','#ffffff'];
+  var count = 120;
+
+  for (var i = 0; i < count; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 80,
+      r: 5 + Math.random() * 6,
+      d: 2 + Math.random() * 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      tilt: Math.random() * 10 - 5,
+      tiltAngle: 0,
+      tiltSpeed: 0.05 + Math.random() * 0.08,
+      shape: Math.random() < 0.5 ? 'rect' : 'circle'
+    });
+  }
+
+  var startTime = Date.now();
+  var duration = 3500;
+
+  if (_confettiAnim) cancelAnimationFrame(_confettiAnim);
+
+  function drawFrame() {
+    var elapsed = Date.now() - startTime;
+    var progress = elapsed / duration;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    pieces.forEach(function(p) {
+      ctx.save();
+      ctx.globalAlpha = progress < 0.7 ? 1 : 1 - ((progress - 0.7) / 0.3);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.tiltAngle);
+      ctx.fillStyle = p.color;
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.5);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      p.y += p.d;
+      p.x += Math.sin(p.tiltAngle) * 1.2;
+      p.tiltAngle += p.tiltSpeed;
+    });
+
+    if (elapsed < duration) {
+      _confettiAnim = requestAnimationFrame(drawFrame);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
+      _confettiAnim = null;
+    }
+  }
+  drawFrame();
+}
+
+// ===========================
+// UPSELL: SHOW / CLOSE
+// ===========================
 function showUpsell() {
+  // Hora dinâmica
+  var horaEl = document.getElementById('upsellHora');
+  if (horaEl) horaEl.textContent = getUpsellHora();
+
+  // Barra de vagas: restaura valor persistido
+  var pct = getVagasPct();
+  renderVagas(pct);
+  startVagasTimer();
+
+  // Abre overlay
   document.getElementById('upsellOverlay').classList.add('open');
+
+  // Confetes
+  setTimeout(launchConfetti, 150);
+
   track('quiz_upsell_shown', { from_plan: 'basico' });
 }
 
@@ -1769,10 +1955,10 @@ function closeUpsellOutside(e) {
 
 function goCompra(plano) {
   const links = {
-    basico: 'https://sonopay.myrnnagurgel.com.br/?preco=1090',
-    completo: 'https://sonopay.myrnnagurgel.com.br/?preco=2990'
+    basico: 'https://sonopay.myrnnagurgel.com.br/?preco=199',
+    completo: 'https://sonopay.myrnnagurgel.com.br/?preco=1990'
   };
-  const prices = { basico: 10, completo: 29 };
+  const prices = { basico: 1.99, completo: 19.90 };
   // GA4: begin_checkout event
   track('begin_checkout', {
     currency: 'BRL',
