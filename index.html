@@ -631,24 +631,54 @@ body::before {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.82);
   z-index: 200;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  padding: 16px;
 }
-.overlay.open { display: flex; animation: slideUp .3s ease; }
-@keyframes slideUp {
-  from { opacity:0; transform:translateY(20px); }
-  to { opacity:1; transform:translateY(0); }
+.overlay.open { display: flex; animation: popIn .32s cubic-bezier(.34,1.56,.64,1); }
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.88); }
+  to   { opacity:1; transform:scale(1); }
 }
 .overlay-card {
   background: var(--surface);
-  border-radius: 24px 24px 0 0;
-  padding: 28px 24px 40px;
+  border-radius: 20px;
+  padding: 28px 22px 28px;
   width: 100%;
   max-width: var(--max-w);
-  border-top: 3px solid var(--moon);
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
+  /* Borda tracejada decorativa via outline + box-shadow interno */
+  outline: 2px dashed rgba(200,169,110,0.45);
+  outline-offset: -8px;
+  box-shadow:
+    0 0 0 1px rgba(200,169,110,0.18),
+    0 24px 60px rgba(0,0,0,0.6),
+    inset 0 0 0 8px transparent;
+}
+/* Cantos decorativos tracejados */
+.overlay-card::before,
+.overlay-card::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: var(--moon);
+  border-style: solid;
+  opacity: 0.6;
+}
+.overlay-card::before {
+  top: 10px; left: 10px;
+  border-width: 2px 0 0 2px;
+  border-radius: 4px 0 0 0;
+}
+.overlay-card::after {
+  bottom: 10px; right: 10px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 4px 0;
 }
 .overlay-card h3 {
   font-family: 'Playfair Display', serif;
@@ -901,10 +931,8 @@ body::before {
 /* Utility class used inside JS-generated HTML strings (avoids inline style in JS) */
 .moon-text { color: var(--moon); }
 
-/* Upsell overlay scroll fix */
-.overlay.open { align-items: flex-end; }
 @media (max-height: 700px) {
-  .overlay-card { padding: 20px 20px 28px; }
+  .overlay-card { padding: 18px 18px 22px; }
 }
 </style>
 </head>
@@ -1425,10 +1453,10 @@ body::before {
     <div class="plan-name">Plano Básico</div>
     <div class="plan-price">
       <span class="currency">R$</span>
-      <span class="amount">1</span>
-      <span class="cents">,99</span>
+      <span class="amount">10</span>
+      <span class="cents">,90</span>
     </div>
-    <div class="plan-original">De <s>R$97</s> por apenas R$1,99 hoje</div>
+    <div class="plan-original">De <s>R$97</s> por apenas R$10,90 hoje</div>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Acesso por 7 dias.</p>
     <ul class="plan-features">
       <li><span class="fi">✅</span>Método Sono Sem Choro</li>
@@ -1527,13 +1555,14 @@ body::before {
   <div class="overlay-card" style="max-height:92vh;overflow-y:auto;">
     <button onclick="closeUpsell()" class="overlay-close-btn">✕</button>
 
-    <!-- Topo: Ainda da tempo -->
-    <div style="text-align:center;margin-bottom:12px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green)">🎉 AINDA DÁ TEMPO!</span>
+    <!-- Topo -->
+    <div style="text-align:center;margin-bottom:4px;">
+      <span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--moon)">⚠️ ESPERA!</span>
     </div>
+    <h3 style="font-size:19px;margin-bottom:12px;">Antes de continuar com o básico...</h3>
 
     <!-- Barra de vagas -->
-    <div style="background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+    <div style="background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
         <span style="font-size:12px;font-weight:700;color:var(--red);">⚡ Vagas se encerrando</span>
         <span style="font-size:13px;font-weight:700;color:var(--red);" id="vagasPct">87%</span>
@@ -1544,30 +1573,23 @@ body::before {
       <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Das vagas promocionais já foram preenchidas</p>
     </div>
 
-    <!-- Mensagem principal -->
-    <div style="background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.25);border-radius:12px;padding:16px;margin-bottom:16px;">
-      <p style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:0;">
-        A oferta de <strong style="color:var(--red);text-decoration:line-through;">R$1,99</strong> finalizou pois fechamos o lote promocional.<br><br>
-        O Plano Completo de <strong style="color:var(--moon);">R$19</strong> vai finalizar <strong>HOJE às <span id="upsellHora"></span></strong> ou até fechar as vagas. Ainda dá tempo você garantir com os bônus incríveis e acesso vitalício!
-      </p>
+    <!-- Bloco de bônus -->
+    <div style="background:rgba(200,169,110,0.1);border:1px solid rgba(200,169,110,0.3);border-radius:12px;padding:14px;margin-bottom:16px;">
+      <p style="font-size:14px;color:var(--text);text-align:left;margin-bottom:8px;">Por apenas <strong style="color:var(--moon);font-size:18px;">R$9 a mais</strong>, você leva o <strong>Plano Completo</strong> com mais de <strong style="color:var(--red);text-decoration:line-through;">R$1.779</strong> em bônus:</p>
+      <div style="font-size:13px;color:var(--text-muted);text-align:left;">
+        <div style="padding:4px 0;">✅ Mapa de Crise do Sono <span style="color:var(--red);text-decoration:line-through;">R$27</span></div>
+        <div style="padding:4px 0;">✅ Consultoria com Psicóloga <span style="color:var(--red);text-decoration:line-through;">R$397</span></div>
+        <div style="padding:4px 0;">✅ Mentoria com Consultora de Sono <span style="color:var(--red);text-decoration:line-through;">R$248</span></div>
+        <div style="padding:4px 0;">✅ Master Aulas com Terapeuta Ocupacional <span style="color:var(--red);text-decoration:line-through;">R$397</span></div>
+        <div style="padding:4px 0;">🔥 Mentoria Ao Vivo com Obstetra + muito mais!</div>
+      </div>
     </div>
 
-    <!-- Preço -->
-    <div style="text-align:center;margin-bottom:4px;">
-      <p style="font-size:12px;color:var(--text-muted);margin-bottom:2px;">De <s style="color:var(--red);">R$197</s> por apenas</p>
-      <div style="display:flex;align-items:baseline;justify-content:center;gap:4px;">
-        <span style="font-size:15px;color:var(--text-muted);font-weight:600;">R$</span>
-        <span style="font-size:48px;font-weight:700;color:var(--text);line-height:1;">19</span>
-      </div>
-      <p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Pague uma vez e tenha acesso vitalício!</p>
-    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;text-align:center;">Centenas de mães dizem que os bônus valem mais que o método principal!</p>
 
     <!-- Botões -->
-    <button class="btn-primary btn-pulse" onclick="goCompra('completo')" style="margin-bottom:10px;margin-top:14px;">🌙 Quero a oferta completa com desconto!</button>
-    <button class="btn-secondary btn-upsell-skip" onclick="closeUpsell()">Obrigada, mas vou deixar passar.</button>
-
-    <!-- Texto discreto -->
-    <p style="font-size:10.5px;color:var(--text-muted);text-align:center;margin-top:12px;opacity:0.7;">Promoção em comemoração às 47 mil alunas. Aproveite agora.</p>
+    <button class="btn-primary btn-pulse" onclick="goCompra('completo')" style="margin-bottom:10px;">🌙 SIM! QUERO O PLANO COMPLETO POR R$19,90</button>
+    <button class="btn-secondary btn-upsell-skip" onclick="goCompra('basico')">Não obrigada, prefiro apenas o básico por R$10,90</button>
   </div>
 </div>
 
@@ -1955,7 +1977,7 @@ function closeUpsellOutside(e) {
 
 function goCompra(plano) {
   const links = {
-    basico: 'https://sonopay.myrnnagurgel.com.br/?preco=199',
+    basico: 'https://sonopay.myrnnagurgel.com.br/?preco=1090',
     completo: 'https://sonopay.myrnnagurgel.com.br/?preco=1990'
   };
   const prices = { basico: 1.99, completo: 19.90 };
