@@ -2116,11 +2116,9 @@ var screenNames = {
   ];
 
   const planPattern = ['C','C','C','C','B','C','C','C','B','C','C','C','C','C','B','C','C','C','B','C'];
-  const intervals   = [5000, 3000, 7000, 3000, 9000];
 
   let entryIdx   = Math.floor(Math.random() * entries.length);
   let patternIdx = 0;
-  let intervalIdx = 0;
   let hideTimer  = null;
 
   function showToast() {
@@ -2151,18 +2149,20 @@ var screenNames = {
     if (hideTimer) clearTimeout(hideTimer);
     hideTimer = setTimeout(function() {
       toast.classList.remove('show');
-    }, 4000);
+    }, 5000);
 
-    const nextMs = intervals[intervalIdx % intervals.length];
-    intervalIdx++;
-    setTimeout(showToast, nextMs + 4500);
+    // Intervalo aleatorio entre inicios: 18-32s, com ~1 em 6 mais curto (10-14s)
+    const nextMs = Math.random() < 0.17
+      ? 10000 + Math.random() * 4000
+      : 18000 + Math.random() * 14000;
+    setTimeout(showToast, nextMs);
   }
 
   // Expõe função para ser chamada pelo goTo
   window._startToast = function() {
     if (window._toastStarted) return;
     window._toastStarted = true;
-    setTimeout(showToast, 2000); // 2s após diagnóstico aparecer
+    setTimeout(showToast, 8000); // 8s apos o diagnostico aparecer
   };
 })();
 
